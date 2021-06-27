@@ -2,5 +2,14 @@ spring:
   application:
     name: shortlisted-management
 
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 15672
+    username: guest
+    exchange: shortlisted_books_exchange
+    queue: shortlisted_books_queue
+    routingkey: shortlisted_books_routingKey
+
 server:
   port: 8083
