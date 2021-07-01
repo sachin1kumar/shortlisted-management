@@ -13,14 +13,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MessagingConfig {
 
-    @Value("${spring.rabbitmq.queue}")
-    private String queue;
+    @Value("${spring.rabbitmq.addShortListedQueue}")
+    private String addShortlistedQueue;
+
+    @Value("${spring.rabbitmq.removeShortListedQueue}")
+    private String removeShortListedQueue;
 
     @Value("${spring.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.routingkey}")
-    private String routingKey;
+    @Value("${spring.rabbitmq.addShortListedRoutingKey}")
+    private String addShortListedRoutingKey;
+
+    @Value("${spring.rabbitmq.removeShortListedRoutingKey}")
+    private String removeShortListedRoutingKey;
 
     @Value("${spring.rabbitmq.username}")
     private String username;
@@ -32,21 +38,35 @@ public class MessagingConfig {
     private String host;
 
     @Bean
-    public Queue queue() {
-        return new Queue(queue, true);
+    public Queue addQueue() {
+        return new Queue(addShortlistedQueue, true);
+    }
+
+    @Bean
+    public Queue removeQueue() {
+        return new Queue(removeShortListedQueue, true);
     }
 
     @Bean
     Exchange myExchange() {
-        return ExchangeBuilder.directExchange(exchange).durable(true).build();
+        return ExchangeBuilder.topicExchange(exchange).durable(true).build();
     }
 
     @Bean
-    Binding binding() {
+    Binding addShortlistedBinding() {
         return BindingBuilder
-                .bind(queue())
+                .bind(addQueue())
                 .to(myExchange())
-                .with(routingKey)
+                .with(addShortListedRoutingKey)
+                .noargs();
+    }
+
+    @Bean
+    Binding removeShortlistedBinding() {
+        return BindingBuilder
+                .bind(removeQueue())
+                .to(myExchange())
+                .with(removeShortListedRoutingKey)
                 .noargs();
     }
 

@@ -8,8 +8,13 @@ spring:
     port: 15672
     username: guest
     exchange: shortlisted_books_exchange
-    queue: shortlisted_books_queue
-    routingkey: shortlisted_books_routingKey
+    addShortListedQueue: shortlisted_books_add_queue
+    addShortListedRoutingKey: shortlisted_books_add_routingKey
+    removeShortListedQueue: shortlisted_books_remove_queue
+    removeShortListedRoutingKey: shortlisted_books_remove_routingKey
+    log:
+      console:
+        level: debug
 
 server:
   port: 8083
